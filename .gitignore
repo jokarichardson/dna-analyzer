@@ -1,0 +1,6 @@
+.settings/
+/.idea/
+/target
+dna-analyzer.iml
+dump.rdb
+
