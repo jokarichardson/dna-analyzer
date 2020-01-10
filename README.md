@@ -13,7 +13,8 @@ Em sendo identificado DNA humano, não será permitido o acesso, com retorno de 
 
 ## Execução em Nuvem
 
-Acessar a URL https://dna-analyzer.herokuapp.com/, via Postman ou via navegador. Em sendo chamada via navegador, será apresentada a interface do Swagger com as operações disponíveis).
+Acessar a URL https://dna-analyzer.herokuapp.com/, via Postman ou via navegador.
+Em sendo acessada via navegador, será apresentada a interface do Swagger com as operações disponíveis.
 
 ## Avaliação de Cadeias de DNA
 
