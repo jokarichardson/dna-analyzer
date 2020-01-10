@@ -22,7 +22,7 @@ Em sendo acessada via navegador, será apresentada a interface do Swagger com as
 
 ```javascript
 {
-  "dna": ["", "CTTGAC", "TGATCT", "GTATGG", "GCTCTA", "TCAGTG"]
+  "dna": ["TCTTAC", "CTTGAC", "TGATCT", "GTATGG", "GCTCTA", "TCAGTG"]
 }
 ```
 
