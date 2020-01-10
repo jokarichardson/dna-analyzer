@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DnaAnalyzerService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">dna-analyzer</a> &gt; <a href="index.source.html" class="el_package">com.richardson.dna.service</a> &gt; <span class="el_source">DnaAnalyzerService.java</span></div><h1>DnaAnalyzerService.java</h1><pre class="source lang-java linenums">package com.richardson.dna.service;
+
+import com.richardson.dna.model.CadeiasDna;
+import com.richardson.dna.repository.DnaAnalyzerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Pattern;
+
+@Service
+<span class="fc" id="L14">public class DnaAnalyzerService {</span>
+    
+    private static final String CADEIA_MUTANTE_REGEX = &quot;([acgtACGT])\\1{3}&quot;;
+    
+    @Autowired
+    private DnaAnalyzerRepository dnaAnalyzerRepository;
+    
+    public Boolean isSimian(String[] dna) {
+<span class="fc bfc" id="L22" title="All 2 branches covered.">        return this.avaliarLinhasMatrizDna(this.converteEmMatrizDna(dna)) ||</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">                this.avaliarColunasMatrizDna(this.converteEmMatrizDna(dna)) ||</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">                this.avaliarDiagonaisMatrizDna(this.converteEmMatrizDna(dna));</span>
+    }
+    
+    public void salvarCadeiasDna(CadeiasDna cadeiasDna) {
+<span class="fc" id="L28">        this.dnaAnalyzerRepository.save(cadeiasDna);</span>
+<span class="fc" id="L29">    }</span>
+    
+    public List&lt;CadeiasDna&gt; buscaCadeiasDnaPersistidas(String[] cadeiaDna) {
+<span class="fc" id="L32">        return this.dnaAnalyzerRepository.findByCondition(Arrays.asList(cadeiaDna));</span>
+    }
+    
+    private String[][] converteEmMatrizDna(String[] cadeiasDna) {
+<span class="fc" id="L36">        String[][] matrizDna = new String[cadeiasDna.length][cadeiasDna.length];</span>
+<span class="fc" id="L37">        List&lt;String&gt; basesNitrogenadas = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L38">        int i = 0;</span>
+<span class="fc" id="L39">        int j = 0;</span>
+        
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        for (String cadeiaDna : cadeiasDna) {</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            for (String baseNitrogenada : cadeiaDna.split(&quot;&quot;)) {</span>
+<span class="fc" id="L43">                matrizDna[i][j] = baseNitrogenada;</span>
+<span class="fc" id="L44">                j++;</span>
+            }
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">            if (j &gt; cadeiasDna.length - 1) {</span>
+<span class="fc" id="L47">                i++;</span>
+<span class="fc" id="L48">                j = 0;</span>
+            }
+        }
+        
+<span class="fc" id="L52">        return matrizDna;</span>
+    }
+    
+    private Boolean avaliarLinhasMatrizDna(String[][] matrizDna) {
+<span class="fc" id="L56">        StringBuilder cadeiasLinha = new StringBuilder();</span>
+<span class="fc" id="L57">        Pattern pattern = Pattern.compile(CADEIA_MUTANTE_REGEX);</span>
+        
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        for (int linha = 0; linha &lt; matrizDna.length; linha++) {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">            for (int coluna = 0; coluna &lt; matrizDna[linha].length; coluna++) {</span>
+<span class="fc" id="L61">                cadeiasLinha.append(matrizDna[linha][coluna]);</span>
+            }
+<span class="fc bfc" id="L63" title="All 2 branches covered.">            if (pattern.matcher(cadeiasLinha).find())</span>
+<span class="fc" id="L64">                return Boolean.TRUE;</span>
+            
+<span class="fc" id="L66">            cadeiasLinha.setLength(0);</span>
+        }
+        
+<span class="fc" id="L69">        return Boolean.FALSE;</span>
+    }
+    
+    private Boolean avaliarColunasMatrizDna(String[][] matrizDna) {
+<span class="fc" id="L73">        StringBuilder cadeiasColuna = new StringBuilder();</span>
+<span class="fc" id="L74">        Pattern pattern = Pattern.compile(CADEIA_MUTANTE_REGEX);</span>
+        
+<span class="fc bfc" id="L76" title="All 2 branches covered.">        for (int coluna = 0; coluna &lt; matrizDna.length; coluna++) {</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            for (int linha = 0; linha &lt; matrizDna[coluna].length; linha++) {</span>
+<span class="fc" id="L78">                cadeiasColuna.append(matrizDna[linha][coluna]);</span>
+            }
+<span class="fc bfc" id="L80" title="All 2 branches covered.">            if (pattern.matcher(cadeiasColuna).find())</span>
+<span class="fc" id="L81">                return Boolean.TRUE;</span>
+            
+<span class="fc" id="L83">            cadeiasColuna.setLength(0);</span>
+        }
+        
+<span class="fc" id="L86">        return Boolean.FALSE;</span>
+    }
+    
+    private Boolean avaliarDiagonaisMatrizDna(String[][] matrizDna) {
+<span class="fc bfc" id="L90" title="All 4 branches covered.">        return this.avaliarDiagonaisPrincipais(matrizDna) || this.avaliarDiagonaisSecundarias(matrizDna);</span>
+    }
+    
+    private Boolean avaliarDiagonaisPrincipais(String[][] matrizDna) {
+<span class="fc" id="L94">        StringBuilder bases = new StringBuilder();</span>
+<span class="fc" id="L95">        Pattern pattern = Pattern.compile(CADEIA_MUTANTE_REGEX);</span>
+        
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        for (int i = (matrizDna.length - 1); i &gt; 0; i--) {</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">            for (int coluna = 0, linha = i; linha &lt;= (matrizDna.length - 1); coluna++, linha++) {</span>
+<span class="fc" id="L99">                bases.append(matrizDna[linha][coluna]);</span>
+            }
+            
+<span class="fc bfc" id="L102" title="All 2 branches covered.">            if (pattern.matcher(bases).find())</span>
+<span class="fc" id="L103">                return Boolean.TRUE;</span>
+            
+<span class="fc" id="L105">            bases.setLength(0);</span>
+        }
+        
+<span class="fc" id="L108">        bases.setLength(0);</span>
+        
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        for (int i = 0; i &lt;= (matrizDna.length - 1); i++) {</span>
+<span class="fc bfc" id="L111" title="All 2 branches covered.">            for (int linha = 0, coluna = i; coluna &lt;= (matrizDna.length - 1); linha++, coluna++) {</span>
+<span class="fc" id="L112">                bases.append(matrizDna[linha][coluna]);</span>
+            }
+            
+<span class="fc bfc" id="L115" title="All 2 branches covered.">            if (pattern.matcher(bases).find())</span>
+<span class="fc" id="L116">                return Boolean.TRUE;</span>
+            
+<span class="fc" id="L118">            bases.setLength(0);</span>
+        }
+        
+<span class="fc" id="L121">        return Boolean.FALSE;</span>
+    }
+    
+    private Boolean avaliarDiagonaisSecundarias(String[][] matrizDna) {
+<span class="fc" id="L125">        Pattern pattern = Pattern.compile(CADEIA_MUTANTE_REGEX);</span>
+<span class="fc" id="L126">        StringBuilder bases = new StringBuilder();</span>
+        
+<span class="fc" id="L128">        int qtdDiagonaisSecundarias = (matrizDna.length * 2) - 1;</span>
+<span class="fc" id="L129">        int elementosDiagonal = 0;</span>
+<span class="fc" id="L130">        int centro = (qtdDiagonaisSecundarias / 2) + 1;</span>
+        int linha;
+        int coluna;
+        
+<span class="fc bfc" id="L134" title="All 2 branches covered.">        for (int i = 1; i &lt;= qtdDiagonaisSecundarias; i++) {</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">            if (i &lt;= centro) {</span>
+<span class="fc" id="L136">                elementosDiagonal++;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">                for (int j = 0; j &lt; elementosDiagonal; j++) {</span>
+<span class="fc" id="L138">                    linha = (i - j) - 1;</span>
+<span class="fc" id="L139">                    coluna = j;</span>
+<span class="fc" id="L140">                    bases.append(matrizDna[linha][coluna]);</span>
+                }
+            } else {
+<span class="fc" id="L143">                elementosDiagonal--;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                for (int j = 0; j &lt; elementosDiagonal; j++) {</span>
+<span class="fc" id="L145">                    linha = (matrizDna.length - 1) - j;</span>
+<span class="fc" id="L146">                    coluna = (i - matrizDna.length) + j;</span>
+<span class="fc" id="L147">                    bases.append(matrizDna[linha][coluna]);</span>
+                }
+            }
+            
+<span class="fc bfc" id="L151" title="All 2 branches covered.">            if (i != qtdDiagonaisSecundarias) {</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">                if (pattern.matcher(bases).find())</span>
+<span class="fc" id="L153">                    return Boolean.TRUE;</span>
+                
+<span class="fc" id="L155">                bases.setLength(0);</span>
+            }
+        }
+        
+<span class="fc" id="L159">        return Boolean.FALSE;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span></div></body></html>
