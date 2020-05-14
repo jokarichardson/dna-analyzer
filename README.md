@@ -1,6 +1,6 @@
 # Analisador de Cadeias de DNA - Teste Símios Meli
 
-<p align="center"><img src="https://github.com/jokarichardson/dna-analyzer/blob/master/src/main/resources/meli.png" width="200" height="200" /></p>
+<p align="center"><img src="https://github.com/jokarichardson/dna-analyzer/blob/master/src/main/resources/dna.jpg" width="212" height="142" /></p>
 
 Em um futuro distante, na cadeia de evolução, os símios e os humanos estão cada vez mais próximos. 
 
