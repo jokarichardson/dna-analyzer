@@ -1,4 +1,4 @@
-# Analisador de Cadeias de DNA - Teste Símios Meli
+# Analisador de Cadeias de DNA
 
 <p align="center"><img src="https://github.com/jokarichardson/dna-analyzer/blob/master/src/main/resources/dna.jpg" width="212" height="142" /></p>
 
